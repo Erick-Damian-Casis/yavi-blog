@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Comment\CommentCollection;
+use App\Http\Resources\Comment\CommentResource;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\User;
@@ -12,16 +14,16 @@ class CommentController extends Controller
     public function index()
     {
         $comments = Comment::get();
-        return response()->json(
-            [
-                'data'=>$comments,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+        return (new CommentCollection($comments))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])
+            ->response()->setStatusCode(200);
     }
+
 
     public function store(Request $request)
     {
@@ -30,28 +32,27 @@ class CommentController extends Controller
         $comment->user()->associate(User::find($request->input('user.id')));
         $comment->body = $request->input('body');
         $comment->save();
-        return response()->json(
-            [
-                'data'=>$comment,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+        return (new CommentResource($comment))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])
+            ->response()->setStatusCode(200);
     }
+
 
     public function show(Comment $comment)
     {
-        return response()->json(
-            [
-                'data'=>$comment,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+        return (new CommentResource($comment))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])
+            ->response()->setStatusCode(200);
     }
 
 
@@ -61,15 +62,15 @@ class CommentController extends Controller
         $comment->user()->associate(User::find($request->input('user.id')));
         $comment->body = $request->input('body');
         $comment->save();
-        return response()->json(
-            [
-                'data'=>$comment,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+
+        return (new CommentResource($comment))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])
+            ->response()->setStatusCode(200);
     }
 
 
@@ -77,14 +78,13 @@ class CommentController extends Controller
     {
         $comment = Article::find($comment);
         $comment->delete();
-        return response()->json(
-            [
-                'data'=>$comment,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+        return (new CommentResource($comment))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])
+            ->response()->setStatusCode(200);
     }
 }

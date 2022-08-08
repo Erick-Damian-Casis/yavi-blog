@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Article\ArticleCollection;
+use App\Http\Resources\Article\ArticleResource;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\User;
@@ -14,15 +16,15 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::get();
-        return response()->json(
-            [
-                'data'=>$articles,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+
+        return (new ArticleCollection($articles))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])
+            ->response()->setStatusCode(200);
     }
 
     public function store(Request $request)
@@ -33,28 +35,27 @@ class ArticleController extends Controller
         $article->body = $request->input('body');
         $article->url = $request->input('url');
         $article->save();
-        return response()->json(
-            [
-                'data'=>$article,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+
+        return (new ArticleResource($article))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])
+            ->response()->setStatusCode(200);
     }
 
     public function show(Article $article)
     {
-        return response()->json(
-            [
-                'data'=>$article,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+        return (new ArticleResource($article))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])
+            ->response()->setStatusCode(200);
     }
 
     public function update(Request $request, Article $article)
@@ -64,29 +65,27 @@ class ArticleController extends Controller
         $article->body = $request->input('body');
         $article->url = $request->input('url');
         $article->save();
-        return response()->json(
-            [
-                'data'=>$article,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+        return (new ArticleResource($article))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])
+            ->response()->setStatusCode(200);
     }
 
     public function destroy($article)
     {
         $article = Article::find($article);
         $article->delete();
-        return response()->json(
-            [
-                'data'=>$article,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+        return (new ArticleResource($article))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])
+            ->response()->setStatusCode(200);
     }
 }

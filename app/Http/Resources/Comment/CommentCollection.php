@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Comment;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ArticleCollection extends ResourceCollection
+class CommentCollection extends ResourceCollection
 {
+    public $collects=CommentResource::class;
 
     public function toArray($request)
     {

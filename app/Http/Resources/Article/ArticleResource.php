@@ -12,10 +12,11 @@ class ArticleResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'user'=>$this->UserResource::make($this->user),
             'id'=>$this->id,
             'title'=>$this->title,
-            'body'=>$this->url,
+            'body'=>$this->body,
+            'url'=>$this->url,
+            'user'=>UserResource::make($this->user),
         ];
     }
 

@@ -2,25 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\User\UserResource;
 use App\Models\Rol;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class userController extends Controller
+class UserController extends Controller
 {
 
     public function index()
     {
         $users = User::get();
-        return response()->json(
-            [
-                'data'=>$users,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+        return (new UserResource($users))->additional([
+        'msg' => [
+            'summary' => 'success',
+            'detail' => '',
+            'code' => '200'
+            ]
+        ])->response()->setStatusCode(200);
     }
 
     public function store(Request $request)
@@ -32,29 +31,25 @@ class userController extends Controller
         $user->password = $request->input('password');
         $user->phone = $request->input('phone');
         $user->save();
-        return response()->json(
-            [
-                'data'=>$user,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+        return (new UserResource($user))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])->response()->setStatusCode(200);
     }
 
 
     public function show(User $user)
     {
-        return response()->json(
-            [
-                'data'=>$user,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+        return (new UserResource($user))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])->response()->setStatusCode(200);
     }
 
 
@@ -66,29 +61,25 @@ class userController extends Controller
         $user->password = $request->input('password');
         $user->phone = $request->input('phone');
         $user->save();
-        return response()->json(
-            [
-                'data'=>$user,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+        return (new UserResource($user))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])->response()->setStatusCode(200);
     }
 
     public function destroy($user)
     {
         $user = User::find($user);
         $user->delete();
-        return response()->json(
-            [
-                'data'=>$user,
-                'msg'=>[
-                    'detail'=>'succes',
-                    'code'=>'200'
-                ]
-            ],200
-        );
+        return (new UserResource($user))->additional([
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ])->response()->setStatusCode(200);
     }
 }
